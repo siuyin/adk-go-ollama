@@ -62,7 +62,8 @@ func ChatRequestFromLLMRequest(modelID string, req *model.LLMRequest, stream boo
 		Messages: messages,
 		Stream:   &stream,
 		Options:  optionsFromGenai(cfg),
-		Think:    &ollamaapi.ThinkValue{Value: false},
+		//Think:    &ollamaapi.ThinkValue{Value: false},
+		Think: thinkFromGenai(cfg),
 	}
 
 	if tools := toolsFromGenai(cfg); len(tools) > 0 {
@@ -313,4 +314,24 @@ func optionsFromGenai(cfg *genai.GenerateContentConfig) map[string]any {
 		return nil
 	}
 	return opts
+}
+
+func thinkFromGenai(cfg *genai.GenerateContentConfig) *ollamaapi.ThinkValue {
+	if cfg == nil {
+		return nil
+	}
+
+	if cfg.ThinkingConfig == nil {
+		return nil
+	}
+
+	var ollamaThinkVal ollamaapi.ThinkValue
+	switch cfg.ThinkingConfig.ThinkingLevel {
+	case "", "THINKING_LEVEL_UNSPECIFIED", "MINIMAL":
+		ollamaThinkVal = ollamaapi.ThinkValue{Value: false}
+	default:
+		ollamaThinkVal = ollamaapi.ThinkValue{Value: strings.ToLower(string(cfg.ThinkingConfig.ThinkingLevel))}
+	}
+
+	return &ollamaThinkVal
 }
