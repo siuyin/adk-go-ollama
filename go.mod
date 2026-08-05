@@ -1,4 +1,4 @@
-module github.com/craigh33/adk-go-ollama
+module github.com/siuyin/adk-go-ollama
 
 go 1.26.5
 
