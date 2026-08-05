@@ -62,6 +62,7 @@ func ChatRequestFromLLMRequest(modelID string, req *model.LLMRequest, stream boo
 		Messages: messages,
 		Stream:   &stream,
 		Options:  optionsFromGenai(cfg),
+		Think:    &ollamaapi.ThinkValue{Value: false},
 	}
 
 	if tools := toolsFromGenai(cfg); len(tools) > 0 {
