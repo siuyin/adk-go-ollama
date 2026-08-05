@@ -327,7 +327,7 @@ func thinkFromGenai(cfg *genai.GenerateContentConfig) *ollamaapi.ThinkValue {
 
 	var ollamaThinkVal ollamaapi.ThinkValue
 	switch cfg.ThinkingConfig.ThinkingLevel {
-	case "", "THINKING_LEVEL_UNSPECIFIED", "MINIMAL":
+	case "", "THINKING_LEVEL_UNSPECIFIED", "MINIMAL", "false", "off", "FALSE", "OFF":
 		ollamaThinkVal = ollamaapi.ThinkValue{Value: false}
 	default:
 		ollamaThinkVal = ollamaapi.ThinkValue{Value: strings.ToLower(string(cfg.ThinkingConfig.ThinkingLevel))}
